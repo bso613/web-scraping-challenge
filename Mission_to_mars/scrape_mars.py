@@ -21,7 +21,7 @@ def scrape():
     news_p = soup.find('div', class_='article_teaser_body').get_text()    
 
 
- 
+  
     url = 'https://spaceimages-mars.com/'
     browser.visit(url)
 
@@ -29,7 +29,7 @@ def scrape():
     html = browser.html
     soup = bs(html, 'html.parser')
 
-  
+   
     btn = soup.find('button', text=' FULL IMAGE')
     if btn.parent.name == 'a':
         a = btn.parent
@@ -37,7 +37,7 @@ def scrape():
     if a:
         featured_image_url = a['href']
 
-   
+    
     mars_featured_image_url = url + featured_image_url
 
 
@@ -45,15 +45,15 @@ def scrape():
     url = 'https://galaxyfacts-mars.com/'
     table = pd.read_html(url, match='Equatorial Diameter')
 
-    
+   
     df = table[0]
 
-   
+    
     mars_html_tbl = df.to_html(index=False, classes="table table-striped", header=False)
     mars_html_tbl = mars_html_tbl.replace('\n', '')
 
 
-  
+
 
     mars_hemi_image_urls = []
 
@@ -101,16 +101,16 @@ def scrape():
 
      
         mars_data = {
-            "marsNews_latest_Title": news_title,
-            "marsNews_latest_ArticleBody": news_p,
-            "marsImages_featured_image_url": mars_featured_image_url,
-            "marsFacts_html_tbl": mars_html_tbl,
-            "marsHemispheres_image_urls": mars_hemi_image_urls
+            "news_title": news_title,
+            "news_p": news_p,
+            "mars_featured_image_url": mars_featured_image_url,
+            "mars_html_tbl": mars_html_tbl,
+            "mars_hemi_image_urls": mars_hemi_image_urls
         }
 
   
     browser2.quit()
     browser.quit()
 
-    # Return results
+   
     return mars_data
